@@ -1,39 +1,15 @@
-# create-svelte
+This is a highly-timeboxed messy experiment to see if I could get sveltekit to do nice notion-style URLs.
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+The structure of the URL is `/dashboard/[niceName]--v1-[state]`, where `state` is the protobuf state.
 
-## Creating a project
+If the `state` piece is not there (e.g. `/dashboard/my-dashboard`) it does nothing. If the `state` component is present
+as per the parsing, it will make the state available to the Dashboardlayout.svelte component.
 
-If you're seeing this, you've probably already done this step. Congrats!
+Using the `page` store within the layout part of the route was the key. Here, it preserves all the state so that all the
+lower-level changes in `/routes/dashboard/[nameAndState]` don't really do much. The layout can capture the value of `nameAndState`
+and theoretically persist / update the dashboard store. If you move the routing into the `+page.svelte`, it simply won't work.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+This also means that we need to use `+layout.svelte` to actually render the dashboard workspace and not `+page.svelte`.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
-# url-protobuf-state-experiment
+I'm not sure if this is a conclusive experiment but hopefully it will point the way toward bringing the protobuf message
+directly into the URL, enabling forward + backward navigation.
