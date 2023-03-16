@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
-	import DashboardLayout from './DashboardLayout.svelte';
+	import DashboardLayout from '../DashboardLayout.svelte';
 
 	// we can always from within a layout get the page parameters. In this case, it pulls from
 	// nameAndState.
